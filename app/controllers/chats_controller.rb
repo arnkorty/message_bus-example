@@ -3,9 +3,20 @@ class ChatsController < ApplicationController
 
   # GET /chats
   # GET /chats.json
+  #
   before_action do
-    $chats ||= []
+    @channel = '/channel'
+    if params[:roomid].present?
+      @channel += '/' + params[:roomid]
+    end
   end
+
+  before_action do
+    $chats ||= {}
+    $chats[@channel] ||= []
+  end
+
+
   def index
   end
 
@@ -27,9 +38,9 @@ class ChatsController < ApplicationController
   # POST /chats.json
   def create
     chat = {content: params[:content], time: Time.now}
-    $chats <<  chat
-
-    MessageBus.publish "/channel", chat
+    $chats[@channel] <<  chat
+    
+    MessageBus.publish @channel, chat
 
     respond_to do |format|
       format.html { redirect_to root_path, notice: 'Chat was successfully created.' }

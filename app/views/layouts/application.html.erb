@@ -2,6 +2,11 @@
 <html>
 <head>
   <title>MessageBusExample</title>
+  <script type="text/javascript" charset="utf-8">
+    <% if params[:roomid] %>
+      window.roomid='<%= params[:roomid] %>';
+    <% end %>
+  </script>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>

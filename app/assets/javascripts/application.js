@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require message-bus
 //= require_tree .
 $(document).ready(function(){
@@ -21,7 +20,11 @@ $(document).ready(function(){
 
   // how often do you want the callback to fire in ms
    MessageBus.callbackInterval = 500;
-   MessageBus.subscribe("/channel", function(data){
+   channel = '/channel';
+   if(window.roomid){
+     channel = channel + '/' + window.roomid
+   }
+   MessageBus.subscribe(channel, function(data){
      $("#chats-content").append("<tr><td>" + data.content + "</td><td>" + data.time + "</td></tr>");
      $("#content").val('');
      // data shipped from server
